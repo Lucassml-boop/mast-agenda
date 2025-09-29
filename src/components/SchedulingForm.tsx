@@ -74,7 +74,7 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
             {LOCATION_OPTIONS.map((option) => (
               <label
                 key={option.value}
-                className="relative flex items-center p-3 sm:p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-500 hover:shadow-md"
+                className="relative flex items-center p-3 sm:p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-500 hover:shadow-md has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:shadow-lg has-[:checked]:ring-2 has-[:checked]:ring-blue-200"
               >
                 <input
                   type="radio"
@@ -84,9 +84,9 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
                 />
                 <div className="flex items-center gap-3 w-full">
                   <span className="text-xl">{option.icon}</span>
-                  <span className="font-medium text-gray-700">{option.label}</span>
+                  <span className="font-medium text-gray-700 has-[:checked]:text-blue-700">{option.label}</span>
                 </div>
-                <MapPin className="w-4 h-4 text-gray-400 ml-auto" />
+                <MapPin className="w-4 h-4 text-gray-400 ml-auto has-[:checked]:text-blue-500" />
               </label>
             ))}
           </div>
