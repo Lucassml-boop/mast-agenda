@@ -1,17 +1,14 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Mail, MapPin } from 'lucide-react';
-
-interface FormData {
-  email: string;
-  location: 'berrine' | 'santana' | 'home-office';
-}
+import type { FormData } from '../types';
+import { LOCATION_OPTIONS, VALIDATION_MESSAGES } from '../constants';
 
 interface SchedulingFormProps {
   selectedDate: Date | null;
   isLoading: boolean;
   isConnected: boolean;
-  onSubmit: (data: FormData) => void;
+  onSubmit: (data: FormData) => Promise<void>;
 }
 
 const SchedulingForm: React.FC<SchedulingFormProps> = ({
@@ -27,9 +24,13 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
     reset,
   } = useForm<FormData>();
 
-  const handleFormSubmit = (data: FormData) => {
-    onSubmit(data);
-    reset();
+  const handleFormSubmit = async (data: FormData) => {
+    try {
+      await onSubmit(data);
+      reset();
+    } catch (error) {
+      // Error handling is done in the hook
+    }
   };
 
   return (
@@ -50,10 +51,10 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
           <input
             type="email"
             {...register('email', {
-              required: 'Email é obrigatório',
+              required: VALIDATION_MESSAGES.EMAIL_REQUIRED,
               pattern: {
                 value: /@grupomast\.com\.br$/,
-                message: 'Use apenas email @grupomast.com.br'
+                message: VALIDATION_MESSAGES.EMAIL_INVALID_DOMAIN
               }
             })}
             className="w-full px-4 py-3 sm:px-5 sm:py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 text-sm sm:text-base text-gray-900 bg-white shadow-sm hover:shadow-md"
@@ -70,18 +71,14 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
             Local de trabalho *
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {[
-              { value: 'berrine', label: 'Berrine', icon: '🏬' },
-              { value: 'santana', label: 'Santana', icon: '🏢' },
-              { value: 'home-office', label: 'Home Office', icon: '🏠' }
-            ].map((option) => (
+            {LOCATION_OPTIONS.map((option) => (
               <label
                 key={option.value}
                 className="relative flex items-center p-3 sm:p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-500 hover:shadow-md"
               >
                 <input
                   type="radio"
-                  {...register('location', { required: 'Local é obrigatório' })}
+                  {...register('location', { required: VALIDATION_MESSAGES.LOCATION_REQUIRED })}
                   value={option.value}
                   className="sr-only"
                 />
