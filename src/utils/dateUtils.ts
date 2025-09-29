@@ -31,6 +31,15 @@ export const isDateDisabled = (date: Date): boolean => {
   return isWeekend(date) || isHoliday(date);
 };
 
+// Função para verificar se uma data é hoje ou está no passado (incluindo hoje)
+export const isDateTodayOrPast = (date: Date): boolean => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const compareDate = new Date(date);
+  compareDate.setHours(0, 0, 0, 0);
+  return compareDate <= today; // <= para incluir o dia atual
+};
+
 // Função para obter a classe CSS da data
 export const getDateClassName = (date: Date): string => {
   if (isHoliday(date)) {

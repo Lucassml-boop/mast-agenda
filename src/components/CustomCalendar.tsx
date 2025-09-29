@@ -1,6 +1,6 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { isDateDisabled, getDateClassName } from '../utils/dateUtils';
+import { isDateDisabled, getDateClassName, isDateTodayOrPast } from '../utils/dateUtils';
 
 interface CustomCalendarProps {
   selectedDate: Date | null;
@@ -112,25 +112,26 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
     }
   };
 
+  // Navegar para o mês de uma data específica
+  const goToDateMonth = (date: Date) => {
+    const targetMonth = date.getMonth();
+    const targetYear = date.getFullYear();
+    
+    if (targetMonth !== currentMonth || targetYear !== currentYear) {
+      setCurrentMonth(targetMonth);
+      setCurrentYear(targetYear);
+    }
+  };
+
   // Verificar se a data está selecionada
   const isDateSelected = (date: Date) => {
     if (!selectedDate) return false;
     return date.toDateString() === selectedDate.toDateString();
   };
 
-  // Verificar se a data é hoje
-  const isToday = (date: Date) => {
-    const today = new Date();
-    return date.toDateString() === today.toDateString();
-  };
-
-  // Verificar se a data está no passado (bloquear datas anteriores a hoje)
-  const isDateInPast = (date: Date) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const compareDate = new Date(date);
-    compareDate.setHours(0, 0, 0, 0);
-    return compareDate < today;
+  // Verificar se a data está no passado ou é hoje (bloquear datas anteriores e incluindo hoje)
+  const isDateInPastOrToday = (date: Date) => {
+    return isDateTodayOrPast(date);
   };
 
   // Verificar se a data está muito longe no futuro (máximo 30 dias)
@@ -149,23 +150,23 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
   return (
     <div className="custom-calendar bg-white rounded-2xl shadow-2xl overflow-hidden border border-blue-100">
       {/* Header com navegação */}
-      <div className="calendar-header bg-gradient-to-r from-blue-600 to-blue-800 p-4 flex items-center justify-between shadow-lg">
+      <div className="calendar-header bg-gradient-to-r from-blue-600 to-blue-800 p-2 sm:p-3 md:p-4 flex items-center justify-between shadow-lg">
         <button
           onClick={goToPreviousMonth}
-          className="p-3 hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 shadow-md"
+          className="p-2 sm:p-3 hover:bg-white/20 rounded-lg sm:rounded-xl transition-all duration-200 hover:scale-110 shadow-md"
         >
-          <ChevronLeft className="w-6 h-6 text-white" />
+          <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
         </button>
         
-        <h2 className="text-2xl font-bold text-white drop-shadow-lg tracking-wide">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-white drop-shadow-lg tracking-wide">
           {monthNames[currentMonth]} {currentYear}
         </h2>
         
         <button
           onClick={goToNextMonth}
-          className="p-3 hover:bg-white/20 rounded-xl transition-all duration-200 hover:scale-110 shadow-md"
+          className="p-2 sm:p-3 hover:bg-white/20 rounded-lg sm:rounded-xl transition-all duration-200 hover:scale-110 shadow-md"
         >
-          <ChevronRight className="w-6 h-6 text-white" />
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
         </button>
       </div>
 
@@ -175,7 +176,7 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
           {weekDays.map((day) => (
             <div
               key={day}
-              className="p-4 text-center text-sm font-bold text-blue-700 uppercase tracking-wider"
+              className="p-2 sm:p-3 md:p-4 text-center text-xs sm:text-sm font-bold text-blue-700 uppercase tracking-wider"
             >
               {day}
             </div>
@@ -184,17 +185,16 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
       </div>
 
       {/* Grid de dias */}
-      <div className="calendar-grid p-3">
-        <div className="grid grid-cols-7 gap-2">
+      <div className="calendar-grid p-1 sm:p-2 md:p-3">
+        <div className="grid grid-cols-7 gap-1 sm:gap-2">
           {calendarDays.map((dayObj, index) => {
             const { date, day, isCurrentMonth } = dayObj;
             const isDisabledByRule = isDateDisabled(date); // fins de semana ou feriados
-            const isPastDate = isDateInPast(date);
+            const isPastOrTodayDate = isDateInPastOrToday(date); // incluindo hoje
             const isTooFarInFuture = isDateTooFarInFuture(date);
             // Permitir seleção de datas de outros meses se estiverem visíveis e válidas
-            const disabled = isDisabledByRule || isPastDate || isTooFarInFuture;
+            const disabled = isDisabledByRule || isPastOrTodayDate || isTooFarInFuture;
             const selected = isDateSelected(date);
-            const today = isToday(date);
             const dateClassName = getDateClassName(date);
 
             return (
@@ -202,27 +202,27 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
                 key={`${date.getFullYear()}-${date.getMonth()}-${day}-${index}`}
                 onClick={() => {
                   if (!disabled) {
+                    // Se a data é de outro mês, navegar para esse mês primeiro
+                    if (!isCurrentMonth) {
+                      goToDateMonth(date);
+                    }
                     onDateSelect(date);
                   }
                 }}
                 disabled={disabled}
                 className={`
-                  calendar-day aspect-square p-3 text-sm font-semibold rounded-xl transition-all duration-300
-                  flex items-center justify-center min-h-[3.5rem] relative shadow-sm
+                  calendar-day aspect-square p-1 sm:p-2 md:p-3 text-xs sm:text-sm font-semibold rounded-lg sm:rounded-xl transition-all duration-300
+                  flex items-center justify-center min-h-[2.5rem] sm:min-h-[3rem] md:min-h-[3.5rem] relative shadow-sm
                   ${!isCurrentMonth 
                     ? disabled
                       ? 'text-gray-300 bg-gray-50 cursor-not-allowed opacity-50'
                       : 'text-gray-500 bg-white/70 cursor-pointer hover:bg-blue-50 hover:text-blue-600 hover:shadow-md'
                     : disabled
                       ? 'cursor-not-allowed opacity-60'
-                      : 'text-gray-700 cursor-pointer bg-white hover:shadow-md'
+                      : 'text-white cursor-pointer bg-gradient-to-r from-blue-600 to-blue-800 shadow-md hover:shadow-lg hover:scale-105'
                   }
                   ${selected 
-                    ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-xl scale-110 ring-4 ring-blue-200' 
-                    : ''
-                  }
-                  ${today && !selected 
-                    ? 'bg-gradient-to-r from-blue-400 to-blue-600 text-white font-bold shadow-lg ring-2 ring-blue-300' 
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-xl scale-110 ring-4 ring-white border-2 border-white' 
                     : ''
                   }
                   ${isDisabledByRule 
@@ -231,14 +231,8 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({
                       : 'bg-gradient-to-r from-red-600 to-red-700 text-white shadow-md'
                     : ''
                   }
-                  ${!disabled && !selected && !today && dateClassName === 'available-date'
-                    ? isCurrentMonth
-                      ? 'hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-700 hover:text-white hover:scale-105 hover:shadow-lg'
-                      : 'hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 hover:text-white hover:scale-105 hover:shadow-lg'
-                    : ''
-                  }
-                  ${isPastDate && !isDisabledByRule
-                    ? 'bg-gray-100 text-gray-400 shadow-inner'
+                  ${isPastOrTodayDate && !isDisabledByRule
+                    ? 'bg-gray-100 text-gray-400 shadow-inner cursor-not-allowed'
                     : ''
                   }
                 `}

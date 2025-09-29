@@ -60,20 +60,21 @@ const SchedulingList: React.FC<SchedulingListProps> = ({
 
   return (
     <div className="bg-white/95 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl border border-white/20 animate-in slide-in-from-right duration-500">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-3 text-gray-800">
-          <div className="p-2 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg shadow-lg">
-            <CalendarIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-bold flex items-center gap-2 sm:gap-3 text-gray-800">
+          <div className="p-1.5 sm:p-2 bg-gradient-to-r from-green-500 to-teal-600 rounded-lg shadow-lg">
+            <CalendarIcon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
           </div>
           Agendamentos ({schedulings.length})
         </h2>
         <button
           onClick={onExportClick}
           disabled={schedulings.length === 0}
-          className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white py-2 sm:py-3 px-4 sm:px-6 rounded-xl font-bold text-sm sm:text-base transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2 shadow-lg hover:shadow-xl hover:scale-105 transform w-full sm:w-auto"
+          className="bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white py-2 sm:py-3 px-3 sm:px-4 md:px-6 rounded-lg sm:rounded-xl font-bold text-xs sm:text-sm md:text-base transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-1 sm:gap-2 shadow-lg hover:shadow-xl hover:scale-105 transform w-full sm:w-auto"
         >
-          <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-          {isAuthenticated ? 'Exportar Excel' : '🔒 Exportar Excel (Admin)'}
+          <Download className="w-3 h-3 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+          <span className="hidden xs:inline">{isAuthenticated ? 'Exportar Excel' : '🔒 Exportar (Admin)'}</span>
+          <span className="xs:hidden">{isAuthenticated ? 'Excel' : '🔒 Excel'}</span>
         </button>
       </div>
 

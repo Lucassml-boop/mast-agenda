@@ -70,11 +70,11 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Local de trabalho *
           </label>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
             {LOCATION_OPTIONS.map((option) => (
               <label
                 key={option.value}
-                className="relative flex items-center p-3 sm:p-4 border-2 border-gray-200 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-500 hover:shadow-md has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:shadow-lg has-[:checked]:ring-2 has-[:checked]:ring-blue-200"
+                className="relative flex items-center p-2 sm:p-3 md:p-4 border-2 border-gray-200 rounded-lg sm:rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-500 hover:shadow-md has-[:checked]:border-blue-500 has-[:checked]:bg-blue-50 has-[:checked]:shadow-lg has-[:checked]:ring-2 has-[:checked]:ring-blue-200"
               >
                 <input
                   type="radio"
@@ -82,11 +82,11 @@ const SchedulingForm: React.FC<SchedulingFormProps> = ({
                   value={option.value}
                   className="sr-only"
                 />
-                <div className="flex items-center gap-3 w-full">
-                  <span className="text-xl">{option.icon}</span>
-                  <span className="font-medium text-gray-700 has-[:checked]:text-blue-700">{option.label}</span>
+                <div className="flex items-center gap-2 sm:gap-3 w-full">
+                  <span className="text-lg sm:text-xl">{option.icon}</span>
+                  <span className="font-medium text-sm sm:text-base text-gray-700 has-[:checked]:text-blue-700">{option.label}</span>
                 </div>
-                <MapPin className="w-4 h-4 text-gray-400 ml-auto has-[:checked]:text-blue-500" />
+                <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 ml-auto has-[:checked]:text-blue-500 flex-shrink-0" />
               </label>
             ))}
           </div>

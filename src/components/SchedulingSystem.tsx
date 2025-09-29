@@ -155,7 +155,7 @@ const SchedulingSystem: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-800 p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-500 to-blue-800 p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <Header
           isConnected={isConnected}
@@ -166,9 +166,9 @@ const SchedulingSystem: React.FC = () => {
           isLoading={isLoading}
         />
 
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
           {/* Lado esquerdo - Formulário e Calendário */}
-          <div className="space-y-6 lg:space-y-8">
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
             {/* Calendário */}
             <div className="bg-white/95 backdrop-blur-lg rounded-2xl p-4 sm:p-6 lg:p-8 shadow-xl border border-white/20 animate-in slide-in-from-left duration-500">
               <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 flex items-center gap-3 text-gray-800">
@@ -217,7 +217,7 @@ const SchedulingSystem: React.FC = () => {
           </div>
 
           {/* Lado direito - Lista de Agendamentos */}
-          <div className="space-y-6 lg:space-y-8">
+          <div className="space-y-4 sm:space-y-6 lg:space-y-8">
             <SchedulingList
               schedulings={schedulings}
               isLoading={isLoading}

@@ -47,13 +47,13 @@ const LoginModal: React.FC<LoginModalProps> = ({
       title="Login Administrativo"
       icon={<Lock className="w-5 h-5 text-white" />}
     >
-      <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl">
-        <p className="text-amber-800 text-sm font-medium">
+      <div className="mb-3 sm:mb-4 p-3 sm:p-4 bg-amber-50 border border-amber-200 rounded-lg sm:rounded-xl">
+        <p className="text-amber-800 text-xs sm:text-sm font-medium">
           🔒 Apenas administradores podem exportar dados para Excel
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-3 sm:space-y-4">
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Usuário *
@@ -61,7 +61,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
           <input
             type="text"
             {...register('username', { required: VALIDATION_MESSAGES.USERNAME_REQUIRED })}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 text-gray-900 bg-white"
+            className="w-full px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 text-sm sm:text-base text-gray-900 bg-white"
             placeholder="Digite o usuário"
           />
           {errors.username && (
@@ -77,7 +77,7 @@ const LoginModal: React.FC<LoginModalProps> = ({
             <input
               type={showPassword ? 'text' : 'password'}
               {...register('password', { required: VALIDATION_MESSAGES.PASSWORD_REQUIRED })}
-              className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 text-gray-900 bg-white"
+              className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-10 sm:pr-12 border-2 border-gray-200 rounded-lg sm:rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 text-sm sm:text-base text-gray-900 bg-white"
               placeholder="Digite a senha"
             />
             <button
@@ -103,25 +103,25 @@ const LoginModal: React.FC<LoginModalProps> = ({
           </div>
         )}
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 pt-2">
           <button
             type="button"
             onClick={handleClose}
-            className="flex-1 px-4 py-3 border-2 border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 transition-colors"
+            className="w-full sm:flex-1 px-3 sm:px-4 py-2.5 sm:py-3 border-2 border-gray-200 text-gray-700 rounded-lg sm:rounded-xl font-semibold text-sm sm:text-base hover:bg-gray-50 transition-colors"
           >
             Cancelar
           </button>
           <button
             type="submit"
-            className="flex-1 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-3 px-4 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="w-full sm:flex-1 bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 text-white py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg sm:rounded-xl font-bold text-sm sm:text-base transition-all duration-300 shadow-lg hover:shadow-xl"
           >
             Entrar
           </button>
         </div>
       </form>
 
-      <div className="mt-6 pt-4 border-t border-gray-100">
-        <p className="text-xs text-gray-500 text-center">
+      <div className="mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-gray-100">
+        <p className="text-xs text-gray-500 text-center leading-relaxed">
           Entre em contato com o administrador do sistema para obter as credenciais
         </p>
       </div>
