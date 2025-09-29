@@ -1,0 +1,9 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /agendamentos/{document} {
+      // Permitir todas as operações: read, write (create/update) e delete
+      allow read, write, delete: if true;
+    }
+  }
+}
